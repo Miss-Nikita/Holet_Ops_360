@@ -1,0 +1,6 @@
+node_modules
+.env
+package-lock.json
+.env.example
+
+HotelOps360 (Comprehensive 360° Hotel Management)
