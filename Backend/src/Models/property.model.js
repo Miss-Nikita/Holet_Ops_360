@@ -34,3 +34,5 @@ default:[]
     
 
 },{timeseries:true})
+
+module.exports = mongoose.model("Property",propertySchema)
