@@ -17,5 +17,5 @@ exports.sendEmail = (to,subject,htmlContent) =>{
         html: htmlContent,
     };
 
-    return transporter.sendMail(mailOption);   
+    return transporter.sendMail(mailOption);    
 }
