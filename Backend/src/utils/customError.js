@@ -1,12 +1,12 @@
 class CustomError extends Error {
-    constructor(message, statusCode){
-super(message);
-this.statusCode = statusCode;
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
 
-
-if(Error.captureStackTrace){
-    Error.captureStackTrace(this,CustomError);
-}
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, CustomError);
     }
+  }
 }
- new CustomError("Error in connecting DB",500)
+
+module.exports = CustomError
