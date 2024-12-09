@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Propertu",
-        select: false,
+        // select: false,
       },
     ],
     booking: [
@@ -38,8 +38,8 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.method.generateAuthToken = function () {
-  const token = jwt.sign({ id: this._id }, process.env.JWt_SECRET_KEY, {
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "5h",
   });
   return token;

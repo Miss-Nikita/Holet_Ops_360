@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 
+
 module.exports.currentUser = (req, res, next) => {
   res.status(200).json({
     user: req.user,
@@ -85,7 +86,7 @@ module.exports.logout = async (req, res, next) => {
 module.exports.updateProfile = async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
-    if (username) ReadableByteStreamController.user.username = username;
+    if (username) req.user.username = username;
     if (email) req.user.email = email;
     if (password) req, (user.password = await bcrypt.hash(password, 10));
 
