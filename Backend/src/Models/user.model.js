@@ -15,12 +15,13 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "password is required"],
+      required: [true, "Password is required"],
+      select: false,
     },
     properties: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Propertu",
+        ref: "Property",
         // select: false,
       },
     ],
@@ -38,8 +39,8 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+userSchema.methods.generateAuthToken = function(){
+  const token = jwt.sign({ id: this._id },process.env.JWT_SECRET_KEY,{
     expiresIn: "5h",
   });
   return token;
@@ -61,8 +62,9 @@ userSchema.statics.authenticate = async function (email, password) {
 };
 
 userSchema.pre("save", async function (next) {
-  this.password = await bcrypt.hash(this.password, 10);
-
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
   next();
 });
 

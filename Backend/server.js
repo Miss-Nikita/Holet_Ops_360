@@ -8,6 +8,7 @@ const { errorHandler } = require("./src/middleware/errorHandler");
 const PORT = process.env.PORT || 3000;
 const userRouter = require("./src/routers/user.route");
 const propertyRouter = require("./src/routers/property.route")
+const reviewRouter = require("./src/routers/review.route")
 
 connect();
 const app = express();
@@ -29,6 +30,7 @@ app.use(
 // Routes
 app.use("/api/users", userRouter);
 app.use("/api/properties", propertyRouter);
+app.use("/api/reviews", reviewRouter);
 
 
 app.use("*", (req, res, next) => {
