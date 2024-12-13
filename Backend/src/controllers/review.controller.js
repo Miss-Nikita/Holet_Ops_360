@@ -32,6 +32,6 @@ module.exports.addReview = async(req,res,next) =>{
 }
 
 
-module.exports.updateReview = async(req,res,next) =>{
+// module.exports.updateReview = async(req,res,next) =>{
     
-}
+// }

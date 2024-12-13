@@ -1,10 +1,10 @@
 exports.bookingConfirmationTemplate = (
-    userName,
-    propertyDetails,
-    checkInDate,
-    checkOutDate
-  ) => {
-    return `
+  userName,
+  propertyDetails,
+  checkInDate,
+  checkOutDate
+) => {
+  return `
       <h2>Hello ${userName},</h2>
       <p>Thank you for your booking!</p>
       <h3>Booking Details:</h3>
@@ -16,9 +16,9 @@ exports.bookingConfirmationTemplate = (
       <p>If you have any questions, feel free to reach out to our support team.</p>
       <p>We hope you have a great stay!</p>
       `;
-  };
-  exports.paymentConfirmationTemplate = (userName, propertyDetails, amount) => {
-    return `
+};
+exports.paymentConfirmationTemplate = (userName, propertyDetails, amount) => {
+  return `
       <h2>Hello ${userName},</h2>
       <p>Your payment has been successfully processed!</p>
       <h3>Payment Details:</h3>
@@ -29,4 +29,4 @@ exports.bookingConfirmationTemplate = (
       <p>Thank you for choosing us!</p>
       <p>We look forward to hosting you soon.</p>
       `;
-  };
+};
