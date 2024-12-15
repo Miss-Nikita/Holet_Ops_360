@@ -18,3 +18,4 @@ router.delete("/delete", authenticateUser, deleteProperty);
 router.get("/:id", viewProperty);
 
 module.exports = router;
+     
