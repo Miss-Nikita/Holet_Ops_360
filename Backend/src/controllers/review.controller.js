@@ -59,3 +59,44 @@ module.exports.updateReview = async (req, res, next) => {
     next(new CustomError("Error updating review", 500));
   }
 };
+
+module.exports.deleteReview = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const review = await reviewModel.findById(id);
+
+    if (!review) return next(new CustomError("Review not found", 400));
+
+    if (review.user.toString() !== req.user._id.toString()) {
+      return next(
+        new CustomError("You are not authorized to update this review", 401)
+      );
+    }
+
+    await reviewModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Review deleted successfully" });
+  } catch (error) {
+    next(new CustomError("Error deleting review", 500));
+  }
+};
+
+module.exports.viewReviews = async (req, res, next) => {
+  try {
+    const { propertyId } = req.params;
+
+    const reviews = await reviewModel
+      .find({ property: propertyId })
+      .populate("user", "username email createdAt")
+      .sort({ createAt: -1 });
+
+    if (reviews.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    next(new CustomError("Error fetching reviews", 500));
+  }
+};

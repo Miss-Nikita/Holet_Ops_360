@@ -22,7 +22,7 @@ const bookingSchema = new mongoose.Schema(
       type: Data,
       required: true,
     },
-    totalPrices: {
+    totalPrice: {
       type: Number,
       required: true,
     },
