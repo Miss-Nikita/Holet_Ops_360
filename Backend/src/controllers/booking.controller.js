@@ -101,3 +101,5 @@ module.exports.cancelBooking = async (req, res, next) => {
     next(new CustomError(error.message, 500));
   }
 };
+
+

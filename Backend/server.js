@@ -11,6 +11,8 @@ const propertyRouter = require("./src/routers/property.route")
 const reviewRouter = require("./src/routers/review.route")
 const bookingRouter = require("./src/routers/booking.route")
 const adminRouter = require("./src/routers/admin.route")
+const paymentRouter = require("./src/routers/payment.route")
+
 
 connect();
 const app = express();
@@ -35,6 +37,7 @@ app.use("/api/properties", propertyRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/payments", paymentRouter);
 
 
 
