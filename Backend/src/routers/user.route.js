@@ -2,16 +2,14 @@ const express = require("express");
 const { authenticateUser } = require("../middleware/authMiddleware");
 const {
   currentUser,
+  signup,
   login,
   logout,
   updateProfile,
   resetPassword,
-   signup,
 } = require("../controllers/user.controller");
 
 const router = express.Router();
-
-
 
 router.get("/current-user", authenticateUser, currentUser);
 

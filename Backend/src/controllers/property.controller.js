@@ -1,11 +1,11 @@
-const propertyModel = require("../Models/property.model")
+const propertyModel = require("../Models/property.model");
 const CustomError = require("../utils/customError");
 
 module.exports.createProperty = async (req, res, next) => {
   const { title, descripton, location, price, amenities, images } = req.body;
   try {
     if (!title || !descripton || !location || !price || !amenities || !images) {
-      next(new CustomError("all Field are required",400));
+      next(new CustomError("all Fields are required", 400));
     }
 
     const newProperty = new propertyModel({
@@ -20,7 +20,6 @@ module.exports.createProperty = async (req, res, next) => {
 
     newProperty.save();
 
-    const savedproperty = newProperty.save();
     res
       .status(201)
       .json({ message: "Property created successfully", newProperty });
@@ -29,14 +28,12 @@ module.exports.createProperty = async (req, res, next) => {
   }
 };
 
-module.exports.updateProperty = async (req, res, next) => { 
+module.exports.updateProperty = async (req, res, next) => {
   const { id } = req.params;
   try {
     if (!id) {
       next(new CustomError("Property ID is required", 400));
     }
-
-   
 
     const updateProperty = await propertyModel.findOneAndUpdate(
       { _id: id },
@@ -50,7 +47,9 @@ module.exports.updateProperty = async (req, res, next) => {
     if (!updateProperty) {
       next(new CustomError("Property not found", 404));
     }
-    res.status(200).json({ message: "Property updated successfully", updateProperty})
+    res
+      .status(200)
+      .json({ message: "Property updated successfully", updateProperty });
   } catch (error) {
     next(new CustomError("Error updating Property", 500));
   }
@@ -75,29 +74,27 @@ module.exports.deleteProperty = async (req, res, next) => {
 
 module.exports.viewProperty = async (req, res, next) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    if(!id) return next(new CustomError("Property ID is required",400))
+    if (!id) return next(new CustomError("Property ID is required", 400));
 
-      const property = await propertyModel
+    const property = await propertyModel
       .findById(id)
-      .populate("host","username")
+      .populate("host", "username");
 
-      if(!property) return next(new CustomError("Property not found",404))
+    if (!property) return next(new CustomError("Property not found", 404));
 
-        res.status(200).json(property);
+    res.status(200).json(property);
   } catch (error) {
-    next(new CustomError("Error fetching Property details",500))
-     
+    next(new CustomError("Error fetching Property details", 500));
   }
 };
 
+module.exports.searchMyProperties = async (req, res, next) => {
+  const properties = await propertyModel.find({ host: req.user._id });
 
-module.exports.searchMyProperties = async(req,res,next) =>{
-  const properties = await propertyModel.find({host: req.user._id})
-
-  res.status(2000).json(properties)
-}
+  res.status(200).json(properties);
+};
 
 exports.searchProperties = async (req, res, next) => {
   try {
@@ -113,4 +110,3 @@ exports.searchProperties = async (req, res, next) => {
     next(new CustomError("Error searching for properties", 500));
   }
 };
-

@@ -45,7 +45,7 @@ module.exports.signup = async (req, res, next) => {
 };
 
 module.exports.login = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const {  email, password } = req.body;
   try {
     // kya user exist ?
     const existingUser = await User.findOne({ email });
@@ -88,7 +88,7 @@ module.exports.updateProfile = async (req, res, next) => {
   try {
     if (username) req.user.username = username;
     if (email) req.user.email = email;
-    if (password) req, (user.password = await bcrypt.hash(password, 10));
+    if (password) req.user.password = await bcrypt.hash(password, 10);
 
     await req.user.save();
 
@@ -106,6 +106,7 @@ module.exports.resetPassword = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (!user) return next(new CustomError("User not found", 404));
+
     const resetToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
@@ -116,6 +117,7 @@ module.exports.resetPassword = async (req, res, next) => {
       auth: {
         user: process.env.NODEMAILER_MAIL,
         pass: process.env.NODEMAILER_APP_PASSWORD,
+                          
       },
     });
     const mailOption = {

@@ -1,26 +1,19 @@
-const express = require("express");
+const express = require("express" );
 const { adminMiddleware } = require("../middleware/adminMiddleware");
-const {
-  getUsers,
-  deleteUser,
-  getProperties,
-  deleteProperty,
-  getBookings,
-  payments,
-  singlePayment,
-} = require("../controllers/admin.controller");
+const { getUsers, deleteUser, getProperties, deleteProperty,getBookings, payments, singlePayment } = require("../controllers/admin.controller");
 
 const router = express.Router();
 
-router.get("/users", adminMiddleware, getUsers);
-router.delete("/users/:id", adminMiddleware, deleteUser);
+router.get("/users",adminMiddleware,getUsers)
 
-router.get("/properties", adminMiddleware, getProperties);
-router.delete("/properties/:id", adminMiddleware, deleteProperty);
+router.delete("/users/:id",adminMiddleware,deleteUser)
 
-router.get("/bookings", adminMiddleware, getBookings);
+router.get("/properties",adminMiddleware,getProperties)
+router.delete("/properties/:id",adminMiddleware,deleteProperty)
 
-router.get("/payments", adminMiddleware, payments);
-router.get("/payments/:id", adminMiddleware, singlePayment);
+router.get("/bookings",adminMiddleware,getBookings)
 
-module.exports = router;
+ router.get("/payments",adminMiddleware,payments)
+ router.get("/payments/:id",adminMiddleware,singlePayment)
+
+module.exports = router
