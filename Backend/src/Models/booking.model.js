@@ -8,9 +8,9 @@ const bookingSchema = new mongoose.Schema(
       required: true,
 
     },
-    User: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Property",
+      ref: "User",
       required: true,
 
     },
@@ -38,4 +38,4 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Booking",bookingSchema)
+module.exports = mongoose.model("Booking",bookingSchema) 

@@ -21,7 +21,7 @@ module.exports.addReview = async (req, res, next) => {
 
     const newReview = new reviewModel({
       property: propertyId,
-      user: req._id,
+      user: req.user._id,
       rating,
       comment,
     });
@@ -30,6 +30,7 @@ module.exports.addReview = async (req, res, next) => {
 
     res.status(201).json(savedReview);
   } catch (error) {
+    console.error("Error adding review:", error);
     next(new CustomError("Error adding review", 500));
   }
 };
@@ -86,10 +87,9 @@ module.exports.viewReviews = async (req, res, next) => {
   try {
     const { propertyId } = req.params;
 
-    const reviews = await reviewModel
-      .find({ property: propertyId })
+    const reviews = await reviewModel.find({ property: propertyId ,})
       .populate("user", "username email createdAt")
-      .sort({ createAt: -1 });
+      .sort({ createdAt: -1 });
 
     if (reviews.length === 0) {
       return res.status(200).json([]);

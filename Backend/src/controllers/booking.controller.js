@@ -11,7 +11,7 @@ module.exports.createBooking = async (req, res, next) => {
     checkOutDate,
     totalAmount,
     status,
-    pymentId,
+    paymentId,
   } = req.body;
 
   try {
@@ -21,7 +21,7 @@ module.exports.createBooking = async (req, res, next) => {
       !checkOutDate ||
       !totalAmount ||
       !status ||
-      !pymentId
+      !paymentId
     ) {
       return next(new CustomError("Missing required booking details", 404));
     }
