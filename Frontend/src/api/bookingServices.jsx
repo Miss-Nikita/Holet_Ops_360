@@ -1,4 +1,4 @@
-import axios from "../axiosConfig";
+import axios from "./axiosConfig";
 import { toast } from "react-toastify";
 
 export const createBookingService = async (bookingData) => {

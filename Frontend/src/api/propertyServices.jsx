@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axios from "../axiosConfig.jsx";
+import axios from "./axiosConfig.jsx";
 
 export const createPropertyService = async (propertyData) => {
   try {

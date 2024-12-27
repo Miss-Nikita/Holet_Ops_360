@@ -1,4 +1,4 @@
-import axios from "../axiosConfig.jsx";
+import axios from "./axiosConfig";
 import { toast } from "react-toastify";
 
 export const currentUserService = async () => {
