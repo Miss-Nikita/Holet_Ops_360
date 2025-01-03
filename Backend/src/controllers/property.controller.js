@@ -2,15 +2,15 @@ const propertyModel = require("../Models/property.model");
 const CustomError = require("../utils/customError");
 
 module.exports.createProperty = async (req, res, next) => {
-  const { title, descripton, location, price, amenities, images } = req.body;
+  const { title, description, location, price, amenities, images } = req.body;
   try {
-    if (!title || !descripton || !location || !price || !amenities || !images) {
+    if (!title || !description || !location || !price || !amenities || !images) {
       next(new CustomError("all Fields are required", 400));
     }
 
     const newProperty = new propertyModel({
       title,
-      descripton,
+      description,
       location,
       price,
       amenities,

@@ -15,7 +15,7 @@ const propertySlices = createSlice({
     },
     fetchPropertiesSuccess(state, action) {
       state.isPropertiesloading = false;
-      state.properties = action.playload;
+      state.properties = action.payload;
     },
     fetchPropertiesFailure(state, action) {
       state.isPropertiesloading = false;

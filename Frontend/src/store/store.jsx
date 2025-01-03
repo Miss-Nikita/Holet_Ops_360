@@ -4,11 +4,10 @@ import propertySlice from "./reducers/propertySlices"
 
 export const store = configureStore({
   reducer: {
-    user: userSlice,
+    user:userSlice,
     property:propertySlice
   },
-});
-
+})
 
 
 
