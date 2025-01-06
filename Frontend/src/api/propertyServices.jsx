@@ -22,12 +22,10 @@ export const updatePropertyService = async (propertyData) => {
   }
 };
 
+
 export const deletePropertyService = async (propertyId) => {
   try {
-    const { data } = await axios.delete(
-      `/properties/${propertyId}`,
-      propertyData
-    );
+    const { data } = await axios.delete(`/properties/${propertyId}`);
     return data;
   } catch (error) {
     toast.error(error.response.data.message);

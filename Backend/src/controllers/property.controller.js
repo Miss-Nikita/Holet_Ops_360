@@ -57,14 +57,14 @@ module.exports.updateProperty = async (req, res, next) => {
 
 module.exports.deleteProperty = async (req, res, next) => {
   const { id } = req.params;
-  try {
-    if (!id) return;
-    next(new CustomError("Property ID is required", 400));
 
-    const deleteProperty = await propertyModel.findOneAndDelete(id);
+  try {
+    if (!id) return next(new CustomError("Property ID is required", 400));
+
+    const deleteProperty = await propertyModel.findByIdAndDelete(id);
 
     if (!deleteProperty)
-      return next(new CustomError("Property not Found", 404));
+      return next(new CustomError("Property not found", 404));
 
     res.status(200).json({ message: "Property deleted successfully" });
   } catch (error) {
@@ -80,15 +80,18 @@ module.exports.viewProperty = async (req, res, next) => {
 
     const property = await propertyModel
       .findById(id)
-      .populate("host", "username");
+      .populate("host", "username email");
+    console.log(property);
 
     if (!property) return next(new CustomError("Property not found", 404));
 
     res.status(200).json(property);
   } catch (error) {
-    next(new CustomError("Error fetching Property details", 500));
+
+    next(new CustomError("Error fetching property details", 500));
   }
 };
+
 
 module.exports.searchMyProperties = async (req, res, next) => {
   const properties = await propertyModel.find({ host: req.user._id });
