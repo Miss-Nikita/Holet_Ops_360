@@ -118,7 +118,7 @@ const ProfilePage = () => {
           {/* Profile Circle */}
           <div>
             <div className="flex items-center justify-center w-24 h-24 bg-black text-white text-5xl font-bold rounded-full mx-auto">
-              {user?.username}
+              {user?.username[0].toUpperCase()}
             </div>
             {/* Name and Role */}
             <div className="text-center mt-4">
@@ -136,7 +136,7 @@ const ProfilePage = () => {
         <div className=" w-full pt-2">
           <h1 className="text-3xl font-bold mb-4">My properties</h1>
           <div className="grid grid-cols-4 gap-6">
-            {propertiesData.length >0 && propertiesData.map((property) => (
+            {propertiesData.length >0 ? propertiesData.map((property) => (
               <div
                 key={property._id}
                 className="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition "
@@ -181,7 +181,7 @@ const ProfilePage = () => {
                   </button>
                 </div>
               </div>
-            ))}
+            )) : <h1>No Property Yet!</h1>}
           </div>
 
           <h1 className="text-3xl font-bold my-4 mt-10">My Bookings</h1>
