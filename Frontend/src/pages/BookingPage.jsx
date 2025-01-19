@@ -1,8 +1,10 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { createBookingService } from "../api/bookingServices";
 
 const BookingPage = () => {
   const { search } = useLocation();
+  const { id } = useParams();
   const data = decodeURIComponent(search)
     .split("?")[1]
     .split("&")
@@ -12,6 +14,21 @@ const BookingPage = () => {
       acc[key] = value.replace(/^"|"$/g, "");
       return acc;
     }, {});
+
+  const [paymentId, setpaymentId] = useState("");
+  const navigate = useNavigate();
+  const createBooking = async () => {
+    const bookingsData = {
+      propertyId: id,
+      status: "Confirmed",
+      paymentId,
+      checkInDate: data.checkinDate,
+      checkOutDate: data.checkoutDate,
+      totalAmount: data.price * data.nights * data.guests,
+    };
+    await createBookingService(bookingsData);
+    navigate("/");
+  };
 
   console.log(data);
 
@@ -30,7 +47,21 @@ const BookingPage = () => {
                 <div>
                   <p className="text-xl font-semibold text-black">Dates</p>
                   <p className="text-lg font-medium">
-                    {new Date(data.checkinDate).getDate() + " " + new Date(data.checkinDate).toLocaleString('default', { month: 'short' }) + " " + new Date(data.checkinDate).getFullYear()} – {new Date(data.checkoutDate).getDate() + " " + new Date(data.checkoutDate).toLocaleString('default', { month: 'short' }) + " " + new Date(data.checkoutDate).getFullYear()}
+                    {new Date(data.checkinDate).getDate() +
+                      " " +
+                      new Date(data.checkinDate).toLocaleString("default", {
+                        month: "short",
+                      }) +
+                      " " +
+                      new Date(data.checkinDate).getFullYear()}{" "}
+                    –{" "}
+                    {new Date(data.checkoutDate).getDate() +
+                      " " +
+                      new Date(data.checkoutDate).toLocaleString("default", {
+                        month: "short",
+                      }) +
+                      " " +
+                      new Date(data.checkoutDate).getFullYear()}
                   </p>
                 </div>
               </div>

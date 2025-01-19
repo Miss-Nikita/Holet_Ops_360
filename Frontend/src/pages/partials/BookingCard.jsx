@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const BookingCard = ({nightRate }) => {
+const BookingCard = ({property }) => {
   const [guests, setGuests] = useState(1); // Initialize guests state with default value 1
   const [checkinDate, setCheckinDate] = useState(new Date().toISOString().split('T')[0]); // Current date as checkin date
   const [checkoutDate, setCheckoutDate] = useState(new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0]); // 2 days ahead as checkout date
   const [nights, setNights] = useState(5); // Calculate nights based on checkin and checkout dates
+  const nightRate = property.price;
   
   useEffect(() => {
       const checkin = new Date(checkinDate);
@@ -41,7 +42,7 @@ const BookingCard = ({nightRate }) => {
         </div>
       </div>
 
-      <Link to={`/booking/1?checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&guests=${guests}&nights=${nights}&price=${nightRate}`}>
+      <Link to={`/booking/${property._id}?checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&guests=${guests}&nights=${nights}&price=${nightRate}`}>
       <button className="bg-[#b17f44] text-white font-bold py-2 px-4 w-full rounded-lg mb-4">
         Reserve
       </button>

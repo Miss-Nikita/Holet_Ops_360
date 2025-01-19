@@ -105,11 +105,11 @@ const Nav = () => {
                   isMenuVisible ? "initial" : "hidden"
                 } top-[110%] w-[280%] shadow-[0_4px_20px_3px_rgba(0,0,0,0.1)] overflow-hidden z-[2] right-0 bg-zinc-50 rounded-xl`}
               >
-                <Link to={"/profile"}>
+              {isLoggedIn &&   <Link to={"/profile"}>
                   <h3 className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
                     My profile
                   </h3>
-                </Link>
+                </Link>}
              {!isLoggedIn && <>   <h3
                   onClick={signupHandler}
                   className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6"
