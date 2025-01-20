@@ -50,8 +50,13 @@ export const processPayment = async (paymentData) => {
         toast.error("Razorpay SDK failed to load!");
         return;
       }
-  
+      // if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
+      //   toast.error("Razorpay key is missing!");
+      //   return;
+      // }
       return new Promise((resolve, reject) => {
+        console.log(import.meta.env.VITE_RAZORPAY_KEY_ID);
+        
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID,
           amount: amount,
@@ -60,7 +65,7 @@ export const processPayment = async (paymentData) => {
           description: "Payment Gateway",
           handler: function (response) {
             paymentFetch(response.razorpay_payment_id)
-              .then((status) => resolve(status))
+              .then((status) => resolve(status.payment))
               .catch((error) => reject(error));
           },
           theme: {

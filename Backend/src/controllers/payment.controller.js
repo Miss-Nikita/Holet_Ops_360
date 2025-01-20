@@ -4,17 +4,19 @@ const razorpayInstance = require("../config/razorpay");
 module.exports.processPayment = async (req, res, next) => {
   try {
     const { amount, currency } = req.body;
+    
     if (!amount || !currency)
       return next(new CustomError("Amount and Currency is Required"));
-
+    
     const options = {
       amount: Number(amount) * 100,
       currency: currency || "INR",
       reciept: `receipt_${Date.now()}`,
       payment_capture: 1,
     };
-
+    
     const order = await razorpayInstance.orders.create(options);
+    console.log(order);
 
     res.status(200).json({
       success: true,

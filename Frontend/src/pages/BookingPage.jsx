@@ -1,10 +1,20 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { createBookingService } from "../api/bookingServices";
+import { createRazorpayOrder } from "../api/paymentServices";
+import { viewPropertyService } from "../api/propertyServices";
+import { toast } from "react-toastify";
 
 const BookingPage = () => {
   const { search } = useLocation();
   const { id } = useParams();
+  console.log(id);
+  
   const data = decodeURIComponent(search)
     .split("?")[1]
     .split("&")
@@ -16,7 +26,18 @@ const BookingPage = () => {
     }, {});
 
   const [paymentId, setpaymentId] = useState("");
+  const [property, setproperty] = useState(null);
+  const [status, setstatus] = useState("");
+  const [totalAmount, settotalAmount] = useState(0);
   const navigate = useNavigate();
+
+  const handleConfirmOrder = async () => {
+    const { status, id } = await createRazorpayOrder(totalAmount);
+    console.log(status, id);
+    setstatus(status)
+    setpaymentId(id);
+  }; 
+
   const createBooking = async () => {
     const bookingsData = {
       propertyId: id,
@@ -24,12 +45,30 @@ const BookingPage = () => {
       paymentId,
       checkInDate: data.checkinDate,
       checkOutDate: data.checkoutDate,
-      totalAmount: data.price * data.nights * data.guests,
+      totalAmount,
     };
     await createBookingService(bookingsData);
     navigate("/");
   };
 
+  const getproperty = async (id) => {
+    const property = await viewPropertyService(id);
+    setproperty(property);
+  };
+  useEffect(() => {
+    getproperty(id);
+    settotalAmount(data.price * data.nights * data.guests);
+  }, []);
+
+  useEffect(() => {
+    if (status === "authorized") {
+      createBooking();
+      toast.success("Order Confirmed");
+    } else if (status != "") {
+      toast.error("Payment failed. Please try again.");
+      navigate("/");
+    }
+  }, [status]);
   console.log(data);
 
   return (
@@ -73,7 +112,7 @@ const BookingPage = () => {
               </div>
             </div>
 
-            <button className="bg-[#b17f44] text-white font-bold py-2 px-10 rounded-lg mt-8">
+            <button onClick={handleConfirmOrder} className="bg-[#b17f44] text-white font-bold py-2 px-10 rounded-lg mt-8">
               Book Now
             </button>
           </section>
