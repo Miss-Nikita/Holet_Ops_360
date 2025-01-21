@@ -43,8 +43,8 @@ const BookingPage = () => {
       propertyId: id,
       status: "Confirmed",
       paymentId,
-      checkInDate: data.checkinDate,
-      checkOutDate: data.checkoutDate,
+      checkInDate: new Date(data.checkinDate),
+      checkOutDate: new Date(data.checkoutDate),
       totalAmount,
     };
     await createBookingService(bookingsData);

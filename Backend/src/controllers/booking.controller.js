@@ -34,8 +34,8 @@ module.exports.createBooking = async (req, res, next) => {
     const booking = await bookingModel.create({
       user: req.user._id,
       property: propertyId,
-      checkInDate,
-      checkOutDate,
+      checkInDate : new Date(),
+      checkOutDate:new Date(),
       totalPrice: totalAmount,
       status,
       rezorpayOrderID: paymentId,

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { viewPropertyService } from "../api/propertyServices";
 import { viewReviews } from "../api/reviewServices";
 import { calculateAvgRating } from "../utils/Math";
+import {useForm } from "react-hook-form"
 
 const SingleProperty = () => {
   const { id } = useParams();
@@ -13,6 +14,9 @@ const SingleProperty = () => {
   const [propertyData, setpropertyData] = useState(null);
   const [reviewsData, setreviewsData] = useState(null);
   const [avgRating, setavgRating] = useState(0);
+  const [newReview,setNewReview] = useState({rating:0,comment:""})
+
+  const {register,handleSubmit,formState:{errors},getValues} = useForm()
 
   const getproperty = async (id) => {
     const property = await viewPropertyService(id);
@@ -41,6 +45,10 @@ const SingleProperty = () => {
     { label: "Value", value: "4.9", icon: "ri-price-tag-3-line" },
   ];
 
+  const onSubmit = async(data) =>{
+    console.log(data);
+    
+  }
   return (
     propertyData && (
       <>
@@ -225,6 +233,34 @@ const SingleProperty = () => {
                 ""
               )}
             </div>
+
+
+{/* Add Review */}
+            <div className="w-full py-4 flex flex-col items-start gap-4">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex items-center gap-5">
+                <div className="flex items-center gap-2 flex-col">
+                  <div>
+                    {[...Array(5)].map((_, index) => (
+                      <label key={index} className="cursor-pointer" onClick={() => setNewReview({ ...newReview, rating: index + 1 })}>
+                        <input {...register("rating", { required: true })} type="radio" name="rating" value={index + 1} className="sr-only" />
+                        <span className={`text-xl ${index + 1 <= getValues("rating") ? "text-yellow-500" : "text-gray-500 grayscale"}`}>⭐️</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.rating && <p className="text-red-500 text-xs mt-[-10px]">Please select a rating</p>}
+                </div>
+                <div>
+                  <input {...register("comment", { required: true })} type="text" name="comment" className="focus:outline-none w-[20vw] py-2 bg-zinc-50" placeholder="Enter the comment" />
+                  {errors.comment && <p className="text-red-500 text-xs mt-[-10px]">Please select a rating</p>}
+                </div>
+              </div>
+            </form>
+
+            <button className="bg-[#b17f44] text-white font-bold py-2 px-4 rounded-lg mb-4" type="submit" >
+              Add your reviews
+            </button>
+          </div>
           </div>
         </div>
 
