@@ -5,8 +5,9 @@ const reviewModel = require("../Models/review.model");
 module.exports.addReview = async (req, res, next) => {
   try {
     const { propertyId, rating, comment } = req.body;
-
+    // console.log("Request Body:", req.body);
     const property = await propertyModel.findById(propertyId);
+    // console.log("Property Query Result:", property);
 
     if (!property) return next(new CustomError("Property not found", 404));
 
@@ -87,7 +88,8 @@ module.exports.viewReviews = async (req, res, next) => {
   try {
     const { propertyId } = req.params;
 
-    const reviews = await reviewModel.find({ property: propertyId ,})
+    const reviews = await reviewModel
+      .find({ property: propertyId })
       .populate("user", "username email createdAt")
       .sort({ createdAt: -1 });
 

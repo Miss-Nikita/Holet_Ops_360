@@ -43,7 +43,7 @@ export const putProfileService = async (userData) => {
   try {
     const { data } = await axios.put("/users/profile", userData);
     // return data;
-    console.log(data);
+    // console.log(data);
     
   } catch (error) {
     toast.error(error.response.data.message);

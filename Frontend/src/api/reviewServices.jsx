@@ -3,10 +3,10 @@ import { toast } from "react-toastify";
 
 export const addReview = async (reviewData) => {
   try {
-    const { data } = await axios.post("/review", reviewData);
+    const { data } = await axios.post("/reviews", reviewData);
     return data;
   } catch (error) {
-    toast.error(error.response.data.message);
+    toast.error(error.response.data.error);
   }
 };
 

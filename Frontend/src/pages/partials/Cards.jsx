@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Cards = () => {
   
   const properties = useSelector(store => store.property.properties)
-  console.log(properties)
+  // console.log(properties)
 
 
   return (

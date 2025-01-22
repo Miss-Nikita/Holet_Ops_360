@@ -81,7 +81,7 @@ module.exports.viewProperty = async (req, res, next) => {
     const property = await propertyModel
       .findById(id)
       .populate("host", "username email");
-    console.log(property);
+    // console.log(property);
 
     if (!property) return next(new CustomError("Property not found", 404));
 

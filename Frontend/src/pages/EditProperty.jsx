@@ -1,19 +1,54 @@
 import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { updatePropertyService, viewPropertyService } from "../api/propertyServices";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const EditProperty = () => {
+  const { id } = useParams();
+  const [property, setproperty] = useState(null);
+  // console.log(id);
+
+  const fetchProperty = async (propertyId) => {
+    const res = await viewPropertyService(propertyId);
+    setproperty(res);
+
+    const fields = ["title", "description", "location", "price"];
+
+    fields.forEach((field) => setValue(field, res[field]));
+
+    setValue("amenities", res.amenities.join(", "));
+    setValue("images", res.images.join(", "));
+    setValue("_id", propertyId);
+  };
+  useEffect(() => {
+    fetchProperty(id);
+  }, [id]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
-    // Convert images string to array separated by spaces
-    data.images = data.images.split(" ");
-    data.amenities = data.amenities.split(" ");
+    const formatedData = {
+      ...data,
+      images: data.images.split(", "),
+      amenities: data.amenities.split(", "),
+    };
+    // console.log(data);
+    // dispatch(data);
 
-    console.log(data);
-    dispatch(data);
+    const res = await updatePropertyService(formatedData)
+    if(Object.keys(res).length > 0){
+      toast.success("Property saved Successfully");
+      navigate("/profile")
+    }
   };
 
   return (
