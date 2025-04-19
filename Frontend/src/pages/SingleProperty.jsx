@@ -26,7 +26,7 @@ const SingleProperty = () => {
 
   const getproperty = async (id) => {
     const property = await viewPropertyService(id);
-    console.log(property);
+    // console.log(property);
     setpropertyData(property);
   };
 

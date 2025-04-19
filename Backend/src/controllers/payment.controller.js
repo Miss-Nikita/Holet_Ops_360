@@ -31,6 +31,7 @@ module.exports.processPayment = async (req, res, next) => {
 module.exports.fetchPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log("id:",id);
     const payment = await razorpayInstance.payments.fetch(id).catch((err) => {
       next(new CustomError(err.message, 500));
     });

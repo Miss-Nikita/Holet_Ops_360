@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { createPropertyService } from "../api/propertyServices";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you have this import for toast styling
 
 const CreateProperty = () => {
   const dispatch = useDispatch();
@@ -12,38 +14,17 @@ const CreateProperty = () => {
     formState: { errors },
   } = useForm();
 
-
+  const [loading, setLoading] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const formatedData = {
       ...data,
-      images: (data.images = data.images.split(", ")),
-      amenities: (data.amenities = data.amenities.split(", ")),
+      images: (data.images = data.images.split(",")),
+      amenities: (data.amenities = data.amenities.split(",")),
     };
-
-    // const formatedData = {
-    //   title: "Luxury Apartment in Downtown",
-    //   description:
-    //     "A spacious and modern 3-bedroom apartment located in the heart of the city. Features include a fully equipped kitchen, large balcony, and stunning city views.",
-    //   location: "Karond, Bhopal",
-    //   price: 2999,
-    //   amenities: [
-    //     "Gym",
-    //     "Swimming Pool",
-    //     "24/7 Security",
-    //     "High-Speed Internet",
-    //     "Parking",
-    //   ],
-    //   images: [
-    //     "https://a0.muscache.com/im/pictures/1a284fe1-9332-412d-9635-4fefb3ca124d.jpg?im_w=720&im_format=avif",
-    //     "https://a0.muscache.com/im/pictures/1a284fe1-9332-412d-9635-4fefb3ca124d.jpg?im_w=720&im_format=avif",
-    //     "https://a0.muscache.com/im/pictures/d8d629d7-9307-4b24-a8ae-b01d95e36124.jpg?im_w=1200&im_format=avif",
-    //     "https://a0.muscache.com/im/pictures/d8d629d7-9307-4b24-a8ae-b01d95e36124.jpg?im_w=1200&im_format=avif",
-    //     "https://a0.muscache.com/im/pictures/1a284fe1-9332-412d-9635-4fefb3ca124d.jpg?im_w=720&im_format=avif",
-    //     "https://a0.muscache.com/im/pictures/d8d629d7-9307-4b24-a8ae-b01d95e36124.jpg?im_w=1200&im_format=avif",
-    //   ],
-    // };
 
     try {
       const res = await createPropertyService(formatedData);
@@ -53,138 +34,97 @@ const CreateProperty = () => {
       }
     } catch (error) {
       toast.error("Error creating property");
+    } finally {
+      setLoading(false);
     }
-    // console.log(res);
-    // dispatch(asyncCreateProperty(data));
+  };
+
+  const handleImageChange = (e) => {
+    const files = e.target.value.split(",");
+    const previews = files.map((file) => file.trim());
+    setImagePreviews(previews);
   };
 
   return (
-    <div className="loginPage flex z-[2] top-0 left-0 w-full bg-zinc-100 h-screen items-center justify-center ">
-      <div className=" py-1 w-[35%] bg-zinc-50 rounded-xl shadow-xl ">
-        <div className="w-full py-4 relative">
-          <div className="absolute left-[3%] top-1/2 -translate-y-1/2"></div>
-          <h1 className="text-center font-bold text-lg text-zinc-800">
-            Create Property
-          </h1>
-        </div>
+    <div className="loginPage flex z-[2] top-0 left-0 w-full mt-5 bg-zinc-100 min-h-screen items-start justify-center pt-24">
+      <div className="py-6 w-[90%] md:w-[60%] lg:w-[40%] bg-white rounded-lg shadow-lg border border-gray-300 transition-transform transform hover:scale-105 duration-300">
+        <h1 className="text-center font-bold text-3xl text-gray-800 mb-4">
+          Create Property
+        </h1>
 
-        <div className="py-5 px-5 ">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="w-full border border-zinc-500 rounded-lg">
-              <div className="w-full p-4 text-md relative  flex justify-center items-center gap-3 border-b border-zinc-500">
-                <label>Title:</label>
-                <input
-                  className="w-full h-full focus:outline-none text-xl "
-                  type="text"
-                  {...register("title", { required: "Title is required" })}
-                />
-                {errors.title && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.title.message}
+        <div className="px-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {[
+              { label: "Title", type: "text", name: "title", required: true },
+              { label: "Description", type: "textarea", name: "description", required: true },
+              { label: "Location", type: "text", name: "location", required: true },
+              { label: "Price (INR per night)", type: "number", name: "price", required: true },
+              { label: "Amenities", type: "text", name: "amenities", required: true },
+              { label: "Images (comma-separated URLs)", type: "url", name: "images", required: true },
+            ].map(({ label, type, name, required }, index) => (
+              <div className="flex flex-col" key={index}>
+                <div className="flex items-center mb-1">
+                  <label className="text-md font-semibold mr-2">{label}:</label>
+                  {type === "textarea" ? (
+                    <textarea
+                      className={`flex-1 border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#b17f44] transition duration-200 ${errors[name] ? 'border-red-500' : ''}`}
+                      rows="1"
+                      style={{ height: '40px', overflow: 'hidden', resize: 'none' }}
+                      {...register(name, { required: required && `${label} is required` })}
+                    />
+                  ) : (
+                    <input
+                      className={`flex-1 h-10 border border-gray-300 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-[#b17f44] transition duration-200 ${errors[name] ? 'border-red-500' : ''}`}
+                      type={type}
+                      {...register(name, { required: required && `${label} is required` })}
+                    />
+                  )}
+                </div>
+                {errors[name] && (
+                  <p className="text-red-500 text-xs mt-1">
+                    <i className="ri-information-fill text-red-500"></i> {errors[name].message}
                   </p>
                 )}
               </div>
-              <div className="p-4 text-md relative w-full flex justify-center items-center gap-3  border-b border-zinc-500">
-                <label>Description:</label>
-                <input
-                  className="w-full h-full focus:outline-none text-xl "
-                  type="text"
-                  {...register("description", {
-                    required: "Description is required",
-                  })}
-                />
-                {errors.description && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.description.message}
-                  </p>
-                )}
+            ))}
+
+            {imagePreviews.length > 0 && (
+              <div className="flex flex-col mt-2">
+                <label className="text-md font-semibold mb-1">Image Previews:</label>
+                <div className="flex space-x-2">
+                  {imagePreviews.map((url, index) => (
+                    <img key={index} src={url} alt={`Preview ${index + 1}`} className="w-16 h-16 object-cover rounded-md border border-gray-300 transition-transform transform hover:scale-110 duration-300" />
+                  ))}
+                </div>
               </div>
-              <div className="p-4 text-md relative w-full flex justify-center items-center gap-3  border-b border-zinc-500">
-                <label>Location:</label>
-                <input
-                  className="w-full h-full focus:outline-none text-xl "
-                  type="text"
-                  {...register("location", {
-                    required: "Location is required",
-                  })}
-                />
-                {errors.location && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.location.message}
-                  </p>
-                )}
-              </div>
-              <div className="p-4 text-md relative w-full flex justify-center items-center gap-3  border-b border-zinc-500">
-                <label>Price (INR per night):</label>
-                <input
-                  className="w-[65%] h-full focus:outline-none text-xl "
-                  type="number"
-                  {...register("price", {
-                    required: "Price is required",
-                  })}
-                />
-                {errors.price && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.price.message}
-                  </p>
-                )}
-              </div>
-              <div className="p-4 text-md relative w-full flex justify-center items-center gap-3  border-b border-zinc-500">
-                <label>Amenities:</label>
-                <input
-                  className="w-full h-full focus:outline-none text-xl "
-                  type="text"
-                  {...register("amenities", {
-                    required: "Amenities are required",
-                  })}
-                />
-                {errors.amenities && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.amenities.message}
-                  </p>
-                )}
-              </div>
-              <div className="p-4 text-md relative w-full flex justify-center items-center gap-3 ">
-                <label>Images:</label>
-                <input
-                  className="w-full h-full focus:outline-none text-xl "
-                  type="url"
-                  {...register("images", {
-                    required: "Images are required",
-                    pattern: {
-                      value: /(^\s*(https?:\/\/.*)\s*$)/i,
-                      message: "Invalid image URL",
-                    },
-                  })}
-                />
-                {errors.images && (
-                  <p className="absolute bottom-0 left-[3%] w-full text-[red] text-xs ">
-                    {" "}
-                    <i className="ri-information-fill text-[red]"></i>{" "}
-                    {errors.images.message}
-                  </p>
-                )}
-              </div>
-            </div>
+            )}
+
             <button
-              className="w-full text-center bg-[#b17f44] mt-4 text-white rounded-md py-3"
+              className={`w-full text-center bg-[#b17f44] mt-4 text-white rounded-md py-2 hover:bg-[#a16a3a] transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               type="submit"
+              disabled={loading}
             >
-              Create Property
+              {loading ? "Creating..." : "Create Property"}
             </button>
           </form>
         </div>
       </div>
+
+      <style jsx>{`
+        .Toastify__toast {
+          background: #333;
+          color: #fff;
+          border-radius: 5px;
+          padding: 10px;
+          font-size: 14px;
+        }
+        .Toastify__toast--success {
+          background: #4caf50;
+        }
+        .Toastify__toast--error {
+          background: #f44336;
+        }
+      `}</style>
     </div>
   );
 };

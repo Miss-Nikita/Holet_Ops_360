@@ -123,12 +123,6 @@ const Nav = () => {
                   Log in
                 </h3></>}
 
-                {/* <h3 className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
-                  Host an experience
-                </h3>
-                <h3 className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
-                  Help Center
-                </h3> */}
                 {isLoggedIn && (
                   <h3 onClick={logoutHandler} className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
                     Logout
