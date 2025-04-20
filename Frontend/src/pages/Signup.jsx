@@ -26,7 +26,7 @@ const dispatch = useDispatch()
         <div className=" py-1 w-[35%] bg-zinc-50 rounded-xl ">
           <div className="w-full py-4 relative border-b border-[#dfdfdf]">
             <div className="absolute left-[3%] top-1/2 -translate-y-1/2">
-              <i onClick={() => setDisplay(false)} className="ri-close-large-line text-zinc-800 cursor-pointer">g</i>
+              <i onClick={() => setDisplay(false)} className="ri-close-large-line text-zinc-800 cursor-pointer"></i>
             </div>
             <h1 className="text-center font-bold text-lg text-zinc-800">
               Sign Up
