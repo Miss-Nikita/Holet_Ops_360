@@ -16,7 +16,7 @@ export const loginService = async (userData) => {
     const { data } = await axios.post("/users/login", userData);
     return data;
   } catch (error) {
-    // console.log(error.response.data.message);
+    console.log(error.response.data.message);
     toast.error(error.response.data.message);
   }
 };

@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 
-
 module.exports.currentUser = (req, res, next) => {
   res.status(200).json({
     user: req.user,
@@ -107,7 +106,7 @@ module.exports.resetPassword = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) return next(new CustomError("User not found", 404));
 
-    const resetToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
 

@@ -28,9 +28,10 @@ const bookingSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Confiremed", "Cencelled"],
+      enum: ["Pending", "Confirmed", "Cancelled"],
       default: "Pending",
     },
+    
     rezorpayOrderID: {
       type: String,
     },

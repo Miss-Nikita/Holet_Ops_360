@@ -11,7 +11,9 @@ module.exports.processPayment = async (req, res, next) => {
     const options = {
       amount: Number(amount) * 100,
       currency: currency || "INR",
-      reciept: `receipt_${Date.now()}`,
+      // reciept: `receipt_${Date.now()}`,
+      receipt: `receipt_${Date.now()}`, // correct spelling
+
       payment_capture: 1,
     };
     

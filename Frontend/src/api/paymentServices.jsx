@@ -40,7 +40,7 @@ export const processPayment = async (paymentData) => {
     }
   };
   
-  const handleRazorpayScreen = async (amount) => {
+  const handleRazorpayScreen = async (order) => {
     try {
       const res = await loadScript(
         "https://checkout.razorpay.com/v1/checkout.js"
@@ -59,10 +59,11 @@ export const processPayment = async (paymentData) => {
         
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-          amount: amount,
+          amount: order.amount,
           currency: "INR",
           name: "Aura Stay",
           description: "Payment Gateway",
+          order_id: order.id, // 🧠 important
           handler: function (response) {
             paymentFetch(response.razorpay_payment_id)
               .then((status) => resolve(status.payment))

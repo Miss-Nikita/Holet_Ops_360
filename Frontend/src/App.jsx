@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { asynccurrentuser } from "./store/actions/userAction";
 import IsAdmin from "./components/auth/isAdmin";
 import NotFound from "./pages/partials/NotFound";
-import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
 
@@ -53,7 +52,6 @@ const dispatch = useDispatch()
         <Route path="/property/:id" element={<ProtectedRoute><SingleProperty /></ProtectedRoute>} />
         <Route path="/Booking/:id" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
         <Route path="/profile/" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

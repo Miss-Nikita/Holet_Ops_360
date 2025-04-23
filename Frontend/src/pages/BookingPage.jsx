@@ -34,6 +34,7 @@ const BookingPage = () => {
   const handleConfirmOrder = async () => {
     const { status, id } = await createRazorpayOrder(totalAmount);
     console.log(status, id);
+    console.log(status, id)
     setstatus(status)
     setpaymentId(id);
   }; 
