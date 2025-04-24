@@ -5,6 +5,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import './toastStyles.css'; // Create this file next!
+
+
 
 import { useEffect } from "react";
 import SingleProperty from "./pages/SingleProperty";
@@ -36,6 +41,18 @@ const dispatch = useDispatch()
   return (
     <>
       <Nav />
+
+      <ToastContainer
+    position="top-right"
+    autoClose={3000}
+    hideProgressBar={false}
+    closeOnClick
+    pauseOnHover
+    draggable
+    pauseOnFocusLoss
+    theme="colored"
+    toastClassName="custom-toast"
+  />
 
       <Routes>
       <Route path="/admin-panel" element={<ProtectedRoute><IsAdmin><AdminPanel /></IsAdmin></ProtectedRoute>}>
