@@ -5,11 +5,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+
+import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import './toastStyles.css'; // Create this file next!
-
-
+import './styles/global.css'; // Import global styles
 
 import { useEffect } from "react";
 import SingleProperty from "./pages/SingleProperty";
@@ -25,7 +25,7 @@ import Allproperties from "./pages/partials/AllProperties";
 import AllBookings from "./pages/partials/AllBookings";
 import { useDispatch, useSelector } from "react-redux";
 import { asynccurrentuser } from "./store/actions/userAction";
-import IsAdmin from "./components/auth/isAdmin";
+import IsAdmin from "./components/auth/IsAdmin";
 import NotFound from "./pages/partials/NotFound";
 
 const App = () => {
@@ -44,7 +44,7 @@ const dispatch = useDispatch()
 
       <ToastContainer
     position="top-right"
-    autoClose={3000}
+    autoClose={2000}
     hideProgressBar={false}
     closeOnClick
     pauseOnHover

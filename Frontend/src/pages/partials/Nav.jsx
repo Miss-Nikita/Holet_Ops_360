@@ -58,7 +58,7 @@ const Nav = () => {
     <>
       <nav className="fixed top-0 w-full z-[1]">
         <div className="nav-p1 w-full px-20 flex justify-between items-center border-b border-[#dfdfdf] bg-zinc-50">
-          <Link to={"/"} className="logo h-24">
+          <Link to={"/"} className="logo h-20">
             <img
               draggable="false"
               className="h-full object-cover"
