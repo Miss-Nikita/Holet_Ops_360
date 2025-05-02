@@ -42,7 +42,7 @@ const dispatch = useDispatch()
     <>
       <Nav />
 
-      <ToastContainer
+      {/* <ToastContainer
     position="top-right"
     autoClose={2000}
     hideProgressBar={false}
@@ -52,7 +52,7 @@ const dispatch = useDispatch()
     pauseOnFocusLoss
     theme="colored"
     toastClassName="custom-toast"
-  />
+  /> */}
 
       <Routes>
       <Route path="/admin-panel" element={<ProtectedRoute><IsAdmin><AdminPanel /></IsAdmin></ProtectedRoute>}>
