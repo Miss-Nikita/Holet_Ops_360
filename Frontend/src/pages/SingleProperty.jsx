@@ -71,253 +71,209 @@ const SingleProperty = () => {
   return (
     propertyData && (
       <>
-        <div className="h-full w-full bg-zinc-50 pt-28 px-40">
-          <div className="flex w-full gap-2 h-[60vh] rounded-2xl overflow-hidden">
-            <div className="w-1/2 h-full  relative">
-              <div className="w-full h-full absolute top-0 left-0  hover:bg-black/[.2] cursor-pointer duration-[.2s] "></div>
-              <img
-                src={propertyData.images[0]}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="w-1/2 h-full flex flex-col gap-2">
-              <div className="w-full h-1/2 flex gap-2 ">
-                <div className="w-1/2 h-full relative">
-                  <div className="w-full h-full absolute top-0 left-0  hover:bg-black/[.2] cursor-pointer duration-[.2s] "></div>
+        <div className="min-h-screen w-full bg-zinc-50 pt-20 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-40">
+          {/* Main Content Container */}
+          <div className="flex flex-col lg:flex-row w-full gap-8">
+            {/* Left Column - Property Images and Details */}
+            <div className="w-full lg:w-2/3 space-y-8">
+              {/* Property Images Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-2xl overflow-hidden">
+                <div className="md:col-span-2 h-[50vh] md:h-[60vh] relative group">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 cursor-pointer"></div>
+                  <img
+                    src={propertyData.images[0]}
+                    alt="Main property view"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="h-[30vh] relative group">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 cursor-pointer"></div>
                   <img
                     src={propertyData.images[1]}
-                    alt=""
+                    alt="Property view 1"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="w-1/2 h-full relative">
-                  <div className="w-full h-full absolute top-0 left-0  hover:bg-black/[.2] cursor-pointer duration-[.2s] "></div>
+                <div className="h-[30vh] relative group">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 cursor-pointer"></div>
                   <img
                     src={propertyData.images[2]}
-                    alt=""
+                    alt="Property view 2"
                     className="w-full h-full object-cover"
                   />
                 </div>
               </div>
-              <div className="w-full h-1/2 flex gap-2 ">
-                <div className="w-1/2 h-full relative">
-                  <div className="w-full h-full absolute top-0 left-0  hover:bg-black/[.2] cursor-pointer duration-[.2s] "></div>
-                  <img
-                    src={propertyData.images[3]}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="w-1/2 h-full relative">
-                  <div className="w-full h-full absolute top-0 left-0  hover:bg-black/[.2] cursor-pointer duration-[.2s] "></div>
-                  <img
-                    src={propertyData.images[4]}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="flex justify-between w-full px-2 items-end mb-4">
-            <div className="w-[50%]">
-              <div className="flex justify-between items-center w-full ">
-                <div className="my-6">
-                  <h1 className="text-3xl text-black ">
-                    {propertyData.location}
-                  </h1>
-                </div>
-                <div className="my-6 h-full w-[20%] flex items-center justify-between ">
+              {/* Property Details */}
+              <div className="space-y-8">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                   <div>
-                    <h3 className="flex relative">
-                      <i className="ri-star-fill text-5xl text-[#b17f44]"></i>
-                      <p className="absolute text-xs font-bold text-zinc-200 top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        {avgRating}
-                      </p>
-                    </h3>
-                  </div>
-                  <div className="h-[40px] bg-zinc-300 w-[1px] "></div>
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-black">
-                      {propertyData.totalReview}
-                    </h3>
-                    <p className="text-xs underline">Reviews</p>
-                  </div>
-                </div>
-              </div>
-
-              <div>{propertyData.description}</div>
-
-              <div className="amenities w-full mt-2">
-                <h1 className="text-2xl text-black ">What this place offers</h1>
-                <div className="grid grid-cols-2 gap-4 p-4 text-md">
-                  {propertyData.amenities.slice(0, 10).map((amenity, index) => (
-                    <h4 key={index} className="col-span-1 text-zinc-800">
-                      ~ {amenity}
-                    </h4>
-                  ))}
-                  {propertyData.amenities.length > 10 ? (
-                    <button
-                      className="text-center mt-4 text-zinc-800 border-zinc-800 border rounded-md py-3"
-                      type="submit"
-                    >
-                      Show all {propertyData.amenities.length} amenities
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="w-fit mb-4">
-              <BookingCard property={propertyData} />
-            </div>
-          </div>
-
-          <div className=" mx-auto py-4  relative">
-            {/* Overall Rating */}
-            <div className="text-center mb-8">
-              <div className="flex items-start justify-center">
-                <img
-                  className="h-32"
-                  src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/78b7687c-5acf-4ef8-a5ea-eda732ae3b2f.png"
-                  alt=""
-                />
-                <h1 className="text-8xl text-zinc-800 font-bold">
-                  {avgRating}
-                </h1>
-                <img
-                  className="h-32"
-                  src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/b4005b30-79ff-4287-860c-67829ecd7412.png"
-                  alt=""
-                />
-              </div>
-              <p className="text-2xl text-zinc-800 font-bold ">
-                Guest favourite
-              </p>
-              <p className="text-gray-600 text-lg w-[30%] text-center mx-auto">
-                One of the most loved homes on Airbnb based on ratings, reviews
-                and reliability
-              </p>
-            </div>
-
-            {/* Rating Metrics */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-8">
-              {ratings.map((rating) => (
-                <div key={rating.label} className="text-center">
-                  <p className="text-xl font-semibold">{rating.value}</p>
-                  <div className="flex justify-center items-center mt-1">
-                    <i className={`${rating.icon} text-2xl`} />
-                  </div>
-                  <p className="text-gray-500 text-sm">{rating.label}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Reviews */}
-            <div className="border-t pt-6 grid grid-cols-2 gap-4">
-              {reviewsData &&
-                reviewsData.length > 0 &&
-                reviewsData?.slice(0, 6).map((review, index) => (
-                  <div key={index} className="mb-6">
-                    <div className="flex items-center mb-2">
-                      <div className="flex gap-3 items-center">
-                        <h3 className="font-semibold text-2xl">
-                          {review.user.username}
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          {calculateDuration(review.user.createdAt)} on Airbnb
-                        </p>
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      {propertyData.location}
+                    </h1>
+                    <div className="flex items-center gap-4 mt-2">
+                      <div className="flex items-center">
+                        <i className="ri-star-fill text-2xl text-[#b17f44]"></i>
+                        <span className="ml-1 font-semibold">{avgRating}</span>
+                      </div>
+                      <div className="h-6 w-px bg-gray-300"></div>
+                      <div>
+                        <span className="font-semibold">{propertyData.totalReview}</span>
+                        <span className="text-gray-600 ml-1">reviews</span>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500 mb-1">
-                      {[...Array(review?.rating)].map((_, index) => (
-                        <span key={index}>⭐️</span>
-                      ))}{" "}
-                      {calculateDuration(review?.createdAt)} ago - Stayed a few
-                      nights
-                    </p>
-                    <p className="text-gray-700">{review?.comment}</p>
-                  </div>
-                ))}
-              {reviewsData?.length > 6 ? (
-                <button
-                  className="text-center text-zinc-800 font-bold border-zinc-800 border rounded-md py-3 w-fit px-10 "
-                  type="submit"
-                >
-                  Show all {reviewsData.length} reviews
-                </button>
-              ) : (
-                ""
-              )}
-            </div>
-
-            {/* Add Review */}
-            <div className="w-full py-4 flex flex-col items-start gap-4">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex items-center gap-5">
-                  <div className="flex items-center gap-2 flex-col">
-                    <div>
-                      {[...Array(5)].map((_, index) => (
-                        <label
-                          key={index}
-                          className="cursor-pointer"
-                          onClick={() =>
-                            setNewReview({ ...newReview, rating: index + 1 })
-                          }
-                        >
-                          <input
-                            {...register("rating", { required: true })}
-                            type="radio"
-                            name="rating"
-                            value={index + 1}
-                            className="sr-only"
-                          />
-                          <span
-                            className={`text-xl ${
-                              index + 1 <= getValues("rating")
-                                ? "text-yellow-500"
-                                : "text-gray-500 grayscale"
-                            }`}
-                          >
-                            ⭐️
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                    {errors.rating && (
-                      <p className="text-red-500 text-xs mt-[-10px]">
-                        Please select a rating
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <input
-                      {...register("comment", { required: true })}
-                      type="text"
-                      name="comment"
-                      className="focus:outline-none w-[20vw] py-2 bg-zinc-50"
-                      placeholder="Enter the comment"
-                    />
-                    {errors.comment && (
-                      <p className="text-red-500 text-xs mt-[-10px]">
-                        Please select a rating
-                      </p>
-                    )}
                   </div>
                 </div>
-              </form>
 
-              <button
-                onClick={handleSubmit(onSubmit)}
-                className="bg-[#b17f44] text-white font-bold py-2 px-4 rounded-lg mb-4"
-                type="submit"
-              >
-                Add your reviews
-              </button>
+                <div className="prose max-w-none">
+                  <p className="text-gray-600">{propertyData.description}</p>
+                </div>
+
+                {/* Amenities */}
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold text-gray-900">What this place offers</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {propertyData.amenities.slice(0, 10).map((amenity, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <i className="ri-checkbox-circle-fill text-[#b17f44]"></i>
+                        <span className="text-gray-600">{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {propertyData.amenities.length > 10 && (
+                    <button className="mt-4 text-[#b17f44] hover:text-[#a16a3a] transition-colors">
+                      Show all {propertyData.amenities.length} amenities
+                    </button>
+                  )}
+                </div>
+
+                {/* Reviews Section */}
+                <div className="space-y-8">
+                  {/* Overall Rating */}
+                  <div className="text-center space-y-4">
+                    <div className="flex items-center justify-center gap-4">
+                      <img
+                        className="h-24"
+                        src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/78b7687c-5acf-4ef8-a5ea-eda732ae3b2f.png"
+                        alt="Guest favorite"
+                      />
+                      <h2 className="text-6xl font-bold text-gray-900">{avgRating}</h2>
+                      <img
+                        className="h-24"
+                        src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-GuestFavorite/original/b4005b30-79ff-4287-860c-67829ecd7412.png"
+                        alt="Guest favorite"
+                      />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Guest favorite</h3>
+                    <p className="text-gray-600 max-w-md mx-auto">
+                      One of the most loved homes on Airbnb based on ratings, reviews and reliability
+                    </p>
+                  </div>
+
+                  {/* Rating Metrics */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    {ratings.map((rating) => (
+                      <div key={rating.label} className="text-center space-y-2">
+                        <p className="text-xl font-semibold">{rating.value}</p>
+                        <i className={`${rating.icon} text-2xl text-[#b17f44]`}></i>
+                        <p className="text-gray-600 text-sm">{rating.label}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Reviews List */}
+                  <div className="space-y-6">
+                    {reviewsData?.slice(0, 6).map((review, index) => (
+                      <div key={index} className="border-b pb-6">
+                        <div className="flex items-center gap-4 mb-2">
+                          <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <img
+                              src={review.user.profileImage || "https://via.placeholder.com/40"}
+                              alt={review.user.username}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">{review.user.username}</h4>
+                            <p className="text-sm text-gray-500">
+                              {calculateDuration(review.user.createdAt)} on Airbnb
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                          {[...Array(review.rating)].map((_, i) => (
+                            <i key={i} className="ri-star-fill text-[#b17f44]"></i>
+                          ))}
+                          <span className="text-sm text-gray-500">
+                            {calculateDuration(review.createdAt)} ago
+                          </span>
+                        </div>
+                        <p className="text-gray-600">{review.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Add Review Form */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold">Add your review</h3>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, index) => (
+                            <label
+                              key={index}
+                              className="cursor-pointer"
+                              onClick={() => setNewReview({ ...newReview, rating: index + 1 })}
+                            >
+                              <input
+                                {...register("rating", { required: true })}
+                                type="radio"
+                                name="rating"
+                                value={index + 1}
+                                className="sr-only"
+                              />
+                              <i
+                                className={`ri-star-fill text-2xl ${
+                                  index + 1 <= getValues("rating")
+                                    ? "text-[#b17f44]"
+                                    : "text-gray-300"
+                                }`}
+                              ></i>
+                            </label>
+                          ))}
+                        </div>
+                        {errors.rating && (
+                          <p className="text-red-500 text-sm">Please select a rating</p>
+                        )}
+                      </div>
+                      <div>
+                        <textarea
+                          {...register("comment", { required: true })}
+                          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17f44]"
+                          placeholder="Share your experience..."
+                          rows="3"
+                        ></textarea>
+                        {errors.comment && (
+                          <p className="text-red-500 text-sm">Please write a review</p>
+                        )}
+                      </div>
+                      <button
+                        type="submit"
+                        className="bg-[#b17f44] text-white px-6 py-2 rounded-lg hover:bg-[#a16a3a] transition-colors"
+                      >
+                        Submit Review
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Booking Card */}
+            <div className="w-full lg:w-1/3">
+              <div className="sticky top-24">
+                <BookingCard property={propertyData} />
+              </div>
             </div>
           </div>
         </div>
