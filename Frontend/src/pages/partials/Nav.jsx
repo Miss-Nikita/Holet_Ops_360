@@ -11,7 +11,6 @@ const Nav = () => {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isSignupVisible, setIsSignupVisible] = useState(false);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { pathname } = useLocation();
 
   const isAdmin = useSelector((store) => store.user?.user?.isAdmin);
@@ -20,14 +19,14 @@ const Nav = () => {
   const filterHandler = () => {
     setIsFilterVisible(!isFilterVisible);
   };
-
   const loginHandler = () => {
     setIsLoginVisible(!isLoginVisible);
   };
-
   const signupHandler = () => {
     setIsSignupVisible(!isLoginVisible);
   };
+
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -49,139 +48,91 @@ const Nav = () => {
     };
   }, []);
 
-  const dispatch = useDispatch();
-  const logoutHandler = async () => {
-    await dispatch(asynclogout());
-    toast.success("Logout Success");
-  };
+  const dispatch =  useDispatch()
+  const logoutHandler = async () =>{
+    await dispatch(asynclogout())
+    toast.success("Logout Success")
+  }
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-10">
-        <div className="relative">
-          {/* Background blur effect */}
-          <div className="absolute inset-0 bg-white/80 backdrop-blur-lg"></div>
-          
-          {/* Main navigation content */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <Link to={"/"} className="flex items-center space-x-2">
-                <img
-                  draggable="false"
-                  className="h-10 w-auto"
-                  src="/images/logo.png"
-                  alt="Logo"
-                />
-                <span className="text-xl font-bold bg-gradient-to-r from-[#b17f44] to-[#d4a76a] bg-clip-text text-transparent">
-                  HotelOps
-                </span>
+      <nav className="fixed top-0 w-full z-[1]">
+        <div className="nav-p1 w-full px-20 flex justify-between items-center border-b border-[#dfdfdf] bg-zinc-50">
+          <Link to={"/"} className="logo h-20">
+            <img
+              draggable="false"
+              className="h-full object-cover"
+              src="/images/logo.png"
+              alt=""
+            />
+          </Link>
+          <div className="flex gap-8 w-fit items-center">
+            {isLoggedIn && (
+              <Link to={"/property/create"} className="font-[600] text-sm">
+                Add your property
               </Link>
+            )}
+            {isAdmin && (
+              <Link to={"/admin-panel/users"} className="font-[600] text-sm">
+                Admin panel
+              </Link>
+            )}
+            <div>
+              <i className="ri-global-line text-lg"></i>
+            </div>
 
-              {/* Navigation Links */}
-              <div className="flex items-center space-x-6">
+            {pathname == "/" && (
+              <div
+                onClick={filterHandler}
+                className="py-2 px-5 border border-zinc-400 rounded-lg text-zinc-500 cursor-pointer"
+              >
+                Filters
+              </div>
+            )}
+
+            <div
+              onClick={toggleMenu}
+              className="flex cursor-pointer relative items-center border-2 border[#666] py-1 px-3 rounded-full gap-3 menu-handler"
+            >
+              <i className="ri-menu-line font-bold"></i>
+              <div className="bg-[#666] h-8 aspect-square flex items-end justify-center rounded-full ">
+                <div className="rounded-full text-white text-lg  overflow-hidden  ">
+                  <i className="ri-user-3-fill text-white"></i>
+                </div>
+              </div>
+              <div
+                className={`menu absolute ${
+                  isMenuVisible ? "initial" : "hidden"
+                } top-[110%] w-[280%] shadow-[0_4px_20px_3px_rgba(0,0,0,0.1)] overflow-hidden z-[2] right-0 bg-zinc-50 rounded-xl`}
+              >
+              {isLoggedIn &&   <Link to={"/profile"}>
+                  <h3 className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
+                    My profile
+                  </h3>
+                </Link>}
+             {!isLoggedIn && <>   <h3
+                  onClick={signupHandler}
+                  className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6"
+                >
+                  Sign up
+                </h3>
+                <h3
+                  onClick={loginHandler}
+                  className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6 border-b border-zinc-300"
+                >
+                  Log in
+                </h3></>}
+
                 {isLoggedIn && (
-                  <Link
-                    to={"/property/create"}
-                    className="text-sm font-medium text-gray-700 hover:text-[#b17f44] transition-colors relative group"
-                  >
-                    Add Property
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#b17f44] transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
+                  <h3 onClick={logoutHandler} className="text-sm px-4 hover:bg-zinc-200/[.5] cursor-pointer transition-all ease-in-out duration-[.5s] py-6">
+                    Logout
+                  </h3>
                 )}
-                {isAdmin && (
-                  <Link
-                    to={"/admin-panel/users"}
-                    className="text-sm font-medium text-gray-700 hover:text-[#b17f44] transition-colors relative group"
-                  >
-                    Admin Panel
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#b17f44] transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                )}
-
-                {/* Language Selector */}
-                <div className="relative group">
-                  <button className="text-gray-600 hover:text-[#b17f44] transition-colors">
-                    <i className="ri-global-line text-xl"></i>
-                  </button>
-                  <div className="absolute right-0 mt-2 w-40 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg py-2 px-3 hidden group-hover:block">
-                    <div className="text-sm text-gray-700 hover:text-[#b17f44] cursor-pointer py-1">English</div>
-                    <div className="text-sm text-gray-700 hover:text-[#b17f44] cursor-pointer py-1">Español</div>
-                    <div className="text-sm text-gray-700 hover:text-[#b17f44] cursor-pointer py-1">Français</div>
-                  </div>
-                </div>
-
-                {/* Filters Button */}
-                {pathname === "/" && (
-                  <button
-                    onClick={filterHandler}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-full hover:bg-[#b17f44] hover:text-white hover:border-[#b17f44] transition-all duration-300"
-                  >
-                    Filters
-                  </button>
-                )}
-
-                {/* User Menu */}
-                <div className="relative">
-                  <button
-                    onClick={toggleMenu}
-                    className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-100 transition-colors menu-handler"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#b17f44] to-[#d4a76a] flex items-center justify-center">
-                      <i className="ri-user-3-fill text-white"></i>
-                    </div>
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  <div
-                    className={`absolute right-0 mt-2 w-48 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden transition-all duration-300 ${
-                      isMenuVisible ? "opacity-100 visible" : "opacity-0 invisible"
-                    } menu`}
-                  >
-                    {isLoggedIn ? (
-                      <>
-                        <Link to={"/profile"}>
-                          <div className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2">
-                            <i className="ri-user-line"></i>
-                            <span>My Profile</span>
-                          </div>
-                        </Link>
-                        <div
-                          onClick={logoutHandler}
-                          className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2 cursor-pointer"
-                        >
-                          <i className="ri-logout-box-line"></i>
-                          <span>Logout</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          onClick={signupHandler}
-                          className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2 cursor-pointer"
-                        >
-                          <i className="ri-user-add-line"></i>
-                          <span>Sign Up</span>
-                        </div>
-                        <div
-                          onClick={loginHandler}
-                          className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2 cursor-pointer border-t border-gray-100"
-                        >
-                          <i className="ri-login-box-line"></i>
-                          <span>Log In</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </nav>
-
-      {/* Add margin to the main content to prevent navbar overlap */}
-      <div className="h-16"></div>
 
       {isFilterVisible && (
         <Filter display={isFilterVisible} setDisplay={setIsFilterVisible} />
